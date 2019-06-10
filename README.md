@@ -1,1 +1,1 @@
-# -WebAutoTest
+# AutoTest
