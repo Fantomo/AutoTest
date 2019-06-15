@@ -2,33 +2,33 @@
 
 import pymysql
 
+from utils.config import Config
+
+
 
 class HandleDB:
 
 	def __init__(self):
+		db_config = Config().get('db')
 		self.conn = pymysql.connect(
-			host='localhost',
-			port=3306,
-			user='root',
-			passwd='2018',
-			charset='utf8'
+			host=db_config['host'],
+			port=db_config['port'],
+			user=db_config['user'],
+			passwd=db_config['passwd'],
+			charset=db_config['charset'],
+			# cursorclass=pymysql.cursors.DictCursor
 		)
 		self.cur = self.conn.cursor()
 
-	def search_one(self, sql):
-		self.cur.execute(sql)
+	def search_one(self, sql, *args):
+		self.cur.execute(sql, *args)
 		result = self.cur.fetchone()
 		return result
 
-	def search_all(self, sql):
-		self.cur.execute(sql)
+	def search_all(self, sql, *args):
+		self.cur.execute(sql, *args)
 		result = self.cur.fetchall()
 		return result
 
-
-if __name__ == "__main__":
-	mysql = HandleDB()
-	res = mysql.search_all("SELECT name from db_user_prod.bmuser a where a.`status`=1 and a.store_id = 4")
-	res1 = mysql.search_all("SELECT count(a.id) from db_user_prod.bmuser a where a.`status`=1 and a.store_id = 4")
-	print(res)
-	print(res1)
+	def __del__(self):
+		self.cur.close()

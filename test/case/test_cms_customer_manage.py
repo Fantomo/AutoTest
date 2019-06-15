@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 
 import unittest
-import time
 
 from test.common.login import login, URL
 from test.page.cms_customer_manage_page import CustomerManage
@@ -27,6 +26,7 @@ class TestCustomerManage(unittest.TestCase):
 		try:
 			self.assertEqual(tips, '该顾客已在本店注册,可以正常登录使用')
 		except AssertionError:
+			try:
 				self.assertEqual(tips, '创建成功')
 			except AssertionError:
 				try:
@@ -43,13 +43,15 @@ class TestCustomerManage(unittest.TestCase):
 		self.driver.input_name(random_name(), flag='old')
 		self.driver.input_mobile(random_phone_number(), flag='old')
 		# select_card(name) name值: 1 疗程卡, 2 时限卡, 3 时次卡
-		# self.driver.select_card('1')
-		# time.sleep(1)
-		# self.driver.select_card('2')
-		# time.sleep(1)
-		# self.driver.select_card('3')
-		# time.sleep(1)
-		self.driver.select_service()
+		self.driver.select_card(1)
+		self.driver.wait(1)
+		self.driver.select_card('2')
+		self.driver.wait(1)
+		self.driver.select_card('3')
+		self.driver.wait(1)
+		# select_service(num) num为服务次数,默认为10
+		self.driver.select_service(num=15)
+		self.driver.wait(1)
 		self.driver.input_account_balance(100,'1000', '你好')
 		self.driver.select_customer_role()
 		self.driver.save_old()
@@ -57,6 +59,7 @@ class TestCustomerManage(unittest.TestCase):
 		try:
 			self.assertEqual(tips, '该顾客已在本店注册,可以正常登录使用')
 		except AssertionError:
+			try:
 				self.assertEqual(tips, '创建成功')
 			except AssertionError:
 				try:

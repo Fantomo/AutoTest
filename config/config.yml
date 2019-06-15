@@ -1,7 +1,7 @@
 data:
   Environmen:
   Test:
-   URL: 
+   URL: http://127.0.0.1:8080/
    user: 
    pwd: 
    adminUser: 
@@ -12,6 +12,13 @@ data:
     pwd: 
     adminUser:
     adminPwd:
+
+db:
+  host: 127.0.0.1
+  port: 3306
+  user: root
+  passwd: '2018'
+  charset: utf8
 
 log:
   file_name: test.log

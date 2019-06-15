@@ -6,18 +6,17 @@ import unittest
 from utils.config import Config, DATA_PATH, REPORT_PATH
 from utils.file_reader import ExcelReader
 from utils.HTMLTestRunner import HTMLTestRunner
+from test.common.login import URL
 
 from test.page.cms_login_page import CMSMainPage
 
 
 class TestCMSLogin(unittest.TestCase):
-	__DATA = Config().get('data')
-	URL = __DATA['Online']['URL'] if __DATA['Environmen'] == 'Online' else __DATA['Test']['URL']
 
 	excel = os.path.join(DATA_PATH, 'login.xlsx')
 
 	def sub_setUp(self):
-		self.driver = CMSMainPage(browser_type='chrome').get(self.URL)
+		self.driver = CMSMainPage(browser_type='chrome').get(URL)
 
 	def sub_tearDown(self):
 		self.driver.quit()
@@ -32,7 +31,7 @@ class TestCMSLogin(unittest.TestCase):
 					self.driver.wait()
 					current_url = self.driver.current_url()
 					try:
-						if current_url != self.URL:
+						if current_url != URL:
 							self.assertEqual(current_url, data['expect'])
 						else:
 							self.assertEqual(self.driver.get_err_tips(), data['expect'])
